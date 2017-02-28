@@ -1,6 +1,6 @@
 package com.perapoch;
 
-import com.perapoch.data.ReaderRepository;
+import com.perapoch.services.ReaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,19 +16,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-    private final ReaderRepository readerRepository;
+    private final ReaderService readerService;
 
     @Autowired
-    public SecurityConfig(ReaderRepository readerRepository) {
-        this.readerRepository = readerRepository;
+    public SecurityConfig(ReaderService readerService) {
+        this.readerService = readerService;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/readingList").access("hasRole('READER')")
-                .antMatchers("/**").permitAll()
+                .antMatchers("/resources/**", "/register", "/login").permitAll()
+                .anyRequest().authenticated()
 
                 .and()
 
@@ -39,6 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(username -> readerRepository.findOne(username));
+        auth.userDetailsService(username -> readerService.findByUsername(username));
     }
 }
