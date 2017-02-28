@@ -7,3 +7,9 @@ The aim of this project is to develop a small web application to understand how 
 $ gradle build
 $ java -jar build/libs/readingList-0.0.1-SNAPSHOT.jar
 ```
+
+or alternatively you just type
+
+```gradle
+$ gradle bootRun
+```
