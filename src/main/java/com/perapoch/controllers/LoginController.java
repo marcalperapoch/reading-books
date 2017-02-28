@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LoginController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public String renderLogin(Model model) {
+    public String renderLogin(Model model, String error, String logout) {
         return "login";
     }
 
